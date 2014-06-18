@@ -1,0 +1,62 @@
+<Window x:Class="PodioDesktop.PopAlertWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  Title="Notification Popup" Width="300" SizeToContent="Height"
+  WindowStyle="None" AllowsTransparency="True" Background="Transparent" Topmost="True" ShowInTaskbar="False">
+
+    <Grid RenderTransformOrigin="0,1" Background="Transparent">
+
+        <!-- Notification area -->
+        <Border BorderThickness="1" Background="AliceBlue"  BorderBrush="Black" CornerRadius="10">
+            <StackPanel Margin="20">
+                <TextBlock Name="TextNote" TextWrapping="Wrap" Margin="5">
+                </TextBlock>
+            </StackPanel>
+        </Border>
+
+        <!-- Animation -->
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                <BeginStoryboard Name="initial">
+                    <Storyboard >
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)">
+                            <SplineDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                            <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Completed="Alert_Complete">
+                            <SplineDoubleKeyFrame KeyTime="0:0:2" Value="1"/>
+                            <SplineDoubleKeyFrame KeyTime="0:0:9" Value="0"/>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+
+            <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
+                <StopStoryboard BeginStoryboardName="vanish"/>
+                <StopStoryboard BeginStoryboardName="initial"/>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" To="1"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+
+            <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                <BeginStoryboard Name="vanish">
+                    <Storyboard>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Completed="Alert_Complete">
+                            <SplineDoubleKeyFrame KeyTime="0:0:2" Value="1"/>
+                            <SplineDoubleKeyFrame KeyTime="0:0:9" Value="0"/>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
+
+        <Grid.RenderTransform>
+            <ScaleTransform ScaleY="1" />
+        </Grid.RenderTransform>
+
+    </Grid>
+
+</Window>
