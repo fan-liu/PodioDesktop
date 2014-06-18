@@ -1,0 +1,87 @@
+<Window x:Class="PodioDesktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PODIO Desktop" Height="716" Width="444" Topmost="True"
+        Icon="Resource\podio.ico">
+
+    <Grid Background="AliceBlue">
+        <Button x:Name="Home" Width="50" Height="45"  ToolTip="Home"
+                BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                Margin="65,631,321,10" Click="Home_Click">
+            <Image Source="Resource\home.png" />
+        </Button>
+        <Button x:Name="User" Width="50" Height="45" ToolTip="User" 
+                BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                Margin="195,631,191,10" Click="User_Click">
+            <Image Source="Resource\user.png" />
+        </Button>
+        <Button x:Name="Workspace" Width="50" Height="45" ToolTip="Workspace"
+                BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                Margin="325,631,61,10" Click="Workspace_Click">
+            <Image Source="Resource\case.png" />
+        </Button>
+        <Button Width="20" Height="20" ToolTip="hide me"
+                BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                Margin="415,665,0,0" Click="Hide_Click">
+            <Image Source="Resource\podio.ico" />
+        </Button>
+
+        <Canvas x:Name="HomeShow" Visibility="Hidden"
+                HorizontalAlignment="Left" Height="626" VerticalAlignment="Top" Width="436">
+            <RichTextBox x:Name="RichHomeDisplay" Background="Transparent" 
+                         HorizontalAlignment="Left" Height="616" VerticalAlignment="Top" Width="416" 
+                     Margin="10,10,0,0" IsReadOnly="True" IsDocumentEnabled="True" Cursor="Arrow">
+                <!--<FlowDocument>
+                    <Paragraph><Run Text="Welcome, let's PODIO."/></Paragraph>
+                </FlowDocument>-->
+            </RichTextBox>
+        </Canvas>
+
+        <Canvas x:Name="UserShow" 
+                HorizontalAlignment="Left" Height="626" VerticalAlignment="Top" Width="436">
+            <Label Canvas.Left="60" Canvas.Top="65" Height="46" Width="303" Foreground="CornflowerBlue"
+                   Content="Welcome, let's go lite!" FontFamily="Arial Black" FontSize="24"/>
+            <StackPanel Name="UserInfo" Height="455" Canvas.Left="40" Canvas.Top="135" Width="355">
+            </StackPanel>
+        </Canvas>
+
+        <Canvas x:Name="SpaceShow" Visibility="Hidden"
+                HorizontalAlignment="Left" Height="626" VerticalAlignment="Top" Width="436">
+            <RichTextBox x:Name="RichSpaceDisplay" Background="Transparent"
+                     HorizontalAlignment="Left" Height="616" VerticalAlignment="Top" Width="416" 
+                     Margin="10,10,0,0" IsReadOnly="True" IsDocumentEnabled="True" Cursor="Arrow">
+            </RichTextBox>
+        </Canvas>
+
+    </Grid>
+
+    <!-- Animation -->
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Name="initial">
+                <Storyboard >
+                    <DoubleAnimation Name="initial_animation" Storyboard.TargetProperty="(Window.Left)" To="-434" BeginTime="0:0:5"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+
+        <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
+            <StopStoryboard BeginStoryboardName="hide"/>
+            <StopStoryboard BeginStoryboardName="initial"/>
+            <BeginStoryboard Name="show">
+                <Storyboard>
+                    <DoubleAnimation Name="show_animation" Storyboard.TargetProperty="(Window.Left)" To="0"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+
+        <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+            <BeginStoryboard Name="hide">
+                <Storyboard>
+                    <DoubleAnimation Name="hide_animation" Storyboard.TargetProperty="(Window.Left)" To="-434" BeginTime="0:0:5"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+
+</Window>
