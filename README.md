@@ -13,3 +13,16 @@ Packages:
   Podio.API0.0.48 - net40
 
   CometD.NET
+
+
+Resource picutres:
+
+  Resource\case.png
+  
+  Resource\home.png
+  
+  Resource\podio.ico
+  
+  Resource\talk.png
+  
+  Resource\user.png
